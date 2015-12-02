@@ -1385,9 +1385,15 @@ public class ASpaceMapper {
         addMultipartNote(notesJA, "custodhist", "Custodial History", record.getString("CustodialHistory"));
 
         noteContent = record.getString("OrigCopiesNote") + "\n\n" + record.get("OrigCopiesURL");
+        //Trim the note content so that we don't get empty lines in either direction
+        noteContent = noteContent.trim();
+        
         addMultipartNote(notesJA, "originalsloc", "Existence and Location of Originals", noteContent);
 
         noteContent = record.getString("RelatedMaterials") + "\n\n" + record.get("RelatedMaterialsURL");
+      //Trim the note content so that we don't get empty lines in either direction
+        noteContent = noteContent.trim();
+        
         addMultipartNote(notesJA, "relatedmaterial", "Related Materials", noteContent);
 
         addMultipartNote(notesJA, "relatedmaterial", "Related Publications", record.getString("RelatedPublications"));
@@ -1401,7 +1407,8 @@ public class ASpaceMapper {
         addMultipartNote(notesJA, "processinfo", "Processing Information", record.getString("ProcessingInfo"));
 
         noteContent = record.getString("BiogHist") + "\n\nNote written by " + record.get("BiogHistAuthor");
-        if(!noteContent.trim().equals("Note written by")) {
+        if(!noteContent.trim().equals("Note written by") &&
+           record.getString("BiogHistAuthor").trim().length() > 0) {
             addMultipartNote(notesJA, "bioghist", "Biographical or Historical Information", noteContent);
         }
 
